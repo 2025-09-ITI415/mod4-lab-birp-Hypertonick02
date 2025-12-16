@@ -1,19 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
 
     public int score = 0;
+    public int totalCollectibles = 10;
     public Text scoreText;
 
     void Awake()
     {
-        // Singleton pattern so other scripts can access this
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -21,8 +23,9 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    void Start()
+    public void ResetScore()
     {
+        score = 0;
         UpdateScoreText();
     }
 
@@ -30,10 +33,18 @@ public class ScoreManager : MonoBehaviour
     {
         score += amount;
         UpdateScoreText();
+
+        if (score >= totalCollectibles)
+        {
+            SceneManager.LoadScene(2); // WinScene
+        }
     }
 
     void UpdateScoreText()
     {
-        scoreText.text = "Score: " + score;
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score;
+        }
     }
 }
