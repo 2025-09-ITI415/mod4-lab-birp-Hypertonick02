@@ -41,4 +41,15 @@ public class FirstPersonMovement : MonoBehaviour
         // Apply movement.
         rigidbody.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.linearVelocity.y, targetVelocity.y);
     }
+    void OnTriggerEnter(Collider other) 
+	{
+		// ..and if the game object we intersect has the tag 'Pick Up' assigned to it..
+		if (other.gameObject.CompareTag ("Collectible"))
+		{
+			// Make the other game object (the pick up) inactive, to make it disappear
+			other.gameObject.SetActive (false);
+
+		}
+	}
+
 }
